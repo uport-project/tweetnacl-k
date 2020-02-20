@@ -5,6 +5,8 @@ import java.security.SecureRandom
 import kotlin.experimental.and
 import kotlin.experimental.or
 import kotlin.experimental.xor
+import kotlin.math.floor
+import kotlin.math.roundToLong
 
 /**
  * This is a port of the TweetNaCl library
@@ -817,7 +819,7 @@ internal object NaClLowLevel {
             carry = 0
             for (j in (i - 32) until (i - 12)) {
                 x[j] += carry - 16 * x[i] * L[j - (i - 32)]
-                carry = (x[j] + 128) shr 8
+                carry = floor((x[j].toDouble() + 128.0) / 256.0).roundToLong()
                 x[j] -= carry shl 8
             }
             ///XXX: check index arithmetic
